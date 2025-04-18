@@ -1,0 +1,82 @@
+#!/usr/bin/python3
+
+import mimetypes
+import os
+import argparse
+
+
+def parse_files(path):
+    all_files = []
+    for root, _, files in os.walk(path):
+        all_files.extend(os.path.join(root, f) for f in files)
+    return all_files
+
+
+def is_image(file):
+    mime = mimetypes.guess_type(file)[0]
+    if mime == None:
+        return False
+    return "image" in mime
+
+
+def is_video(file):
+    mime = mimetypes.guess_type(file)[0]
+    if mime == None:
+        return False
+    return "video" in mime
+
+
+def get_media_data(files, check_media_func):
+    data = []
+    for file in files:
+        if check_media_func(file):
+            try:
+                data.append(os.path.getsize(file))
+            except OSError:
+                continue
+
+    return (len(data), sum(data)/1000000 if data else 0)
+
+
+def size_ratio_image_to_video(files):
+    num = get_media_data(files, is_image)[1]
+    den = get_media_data(files, is_video)[1]
+    return num/den if den != 0 else None
+
+
+def amount_ratio_image_to_video(files):
+    num = get_media_data(files, is_image)[0]
+    den = get_media_data(files, is_video)[0]
+    return num/den if den != 0 else None
+
+
+def average_image_size(files):
+    num = get_media_data(files, is_image)[1]
+    den = get_media_data(files, is_image)[0]
+    return num/den if den != 0 else None
+
+
+def average_video_size(files):
+    num = get_media_data(files, is_video)[1]
+    den = get_media_data(files, is_video)[0]
+    return num/den if den != 0 else None
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument('function')
+parser.add_argument('path')
+args = parser.parse_args()
+
+path = args.path
+
+files = parse_files(path)
+
+match args.function:
+    case "sratio":
+        print(size_ratio_image_to_video(files))
+    case "aratio":
+        print(amount_ratio_image_to_video(files))
+    case "avimage":
+        print(f"{average_image_size(files)} MB")
+    case "avvid":
+        print(f"{average_video_size(files)} MB")
