@@ -9,3 +9,7 @@ This is inspired by @LukeSmithxyz and compiles the current project you are worki
 ## vidsAndPics
 
 Simple tool that crawls folders and gives some simple data on the image and video composition inside that folder and its sub-folders.
+
+## startmatlab
+
+Adapts selinux in order to make Matlab work and start Matlab aferwards.
