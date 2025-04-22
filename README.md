@@ -4,7 +4,8 @@ This repo contains some of scrips I use for convenience or whatever.
 
 ## compiler
 
-This is inspired by @lukesmithxyz Luke Smith (https://github.com/lukesmithxyz) and compiles the current project you are working on. It detects the programming language automatically and can be i.e. run from within Neovim or other editors.
+This is inspired by @lukesmithxyz and compiles the current project you are working on. It detects the programming language automatically and can be i.e. run from within Neovim or other editors.
+@torvalds
 
 ## vidsAndPics
 
